@@ -9,8 +9,8 @@ export default registerAs('db', () => ({
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
 
-  autoLoadEntities: true,
-  // entities: [join(__dirname, '**', '/*.entity{.ts,.js}')],
+  // autoLoadEntities: true,
+  entities: [join(__dirname, '**', '/*.entity{.ts,.js}')],
   migrationsTableName: 'migrations',
   migrations: ['src/db/migrations/*.ts'],
   cli: {
