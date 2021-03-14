@@ -33,4 +33,33 @@ export class AuthService {
       throw error;
     }
   }
+
+  public async getByCredentials(email: string, hashedPassword: string) {
+    try {
+      const user = await this.usersRepository.findOne({ email });
+      if (!user) {
+        throw new HttpException(
+          'User with this email does not exist',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      const isPasswordMatching = await bcrypt.compare(
+        hashedPassword,
+        user.password,
+      );
+      if (!isPasswordMatching) {
+        throw new HttpException(
+          'Wrong credentials provided',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      user.password = undefined;
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        'Wrong credentials provided',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }

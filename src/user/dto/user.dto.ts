@@ -8,10 +8,25 @@ export class UserRegisterDto {
   @ApiProperty({ example: 'piotr@myflow.pl' })
   email: string;
 
-  @ApiProperty({ example: '123' })
+  @ApiProperty({
+    example: '123',
+    description: 'hasło min 3 znak wielkie litery i cyfry',
+  })
   password: string;
 }
 
 export class UserRegisterDtoResponse {
+  user: UserEntity;
+}
+
+export class UserLoginDto {
+  @ApiProperty({ example: 'piotr@myflow.pl' })
+  email: string;
+  @ApiProperty({ example: '123' })
+  password: string;
+}
+
+export class UserLoginDtoResponse {
+  access_token: string;
   user: UserEntity;
 }
