@@ -20,3 +20,9 @@ export class PhotoCommentAddDto {
 export class PhotoCommentAddResponseDto {
   comment: CommentEntity;
 }
+export class PhotosResponseDto {
+  photos: PhotoEntity[];
+}
+export class UserPhotosResponseDto {
+  photos: PhotoEntity[];
+}
