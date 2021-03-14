@@ -1,13 +1,8 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Get } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { UserEntity } from '../../db';
 import { User } from '../decorators';
 import {
@@ -15,12 +10,16 @@ import {
   UserLoginDtoResponse,
   UserRegisterDto,
   UserRegisterDtoResponse,
+  MeResponseDto,
 } from '../dto';
 import { AuthService } from '../services';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private jwtService: JwtService,
+  ) {}
 
   @Post('register')
   async register(
@@ -37,12 +36,14 @@ export class AuthController {
   @Post('login')
   @ApiBody({ type: UserLoginDto })
   async login(@User() user: UserEntity): Promise<UserLoginDtoResponse> {
-    const access_token = '';
+    const access_token = this.jwtService.sign({ userId: user.id });
     return { access_token, user };
   }
 
-  // async login(@Req() req: any): Promise<UserLoginDtoResponse> {
-  //   const access_token = '';
-  //   return { access_token, user: req.user };
-  // }
+  @UseGuards(AuthGuard())
+  @Get('me')
+  @ApiBearerAuth()
+  async me(@User() user: UserEntity): Promise<MeResponseDto> {
+    return { user };
+  }
 }

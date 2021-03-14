@@ -56,6 +56,7 @@ export class AuthService {
       user.password = undefined;
       return user;
     } catch (error) {
+      // throw error;
       throw new HttpException(
         'Wrong credentials provided',
         HttpStatus.BAD_REQUEST,

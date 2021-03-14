@@ -30,3 +30,6 @@ export class UserLoginDtoResponse {
   access_token: string;
   user: UserEntity;
 }
+export class MeResponseDto {
+  user: UserEntity;
+}
