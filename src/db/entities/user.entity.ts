@@ -1,6 +1,7 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { PhotoEntity } from '.';
 import { BaseEntity } from './base.entity';
+import { CommentEntity } from './comment.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity extends BaseEntity {
@@ -15,4 +16,7 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany((type) => PhotoEntity, (photo) => photo.user)
   photos: PhotoEntity[];
+
+  @OneToMany((type) => CommentEntity, (comment) => comment.user)
+  comments: CommentEntity[];
 }
