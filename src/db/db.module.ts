@@ -20,5 +20,6 @@ import { UserEntity } from './entities';
       },
     }),
   ],
+  exports: [TypeOrmModule],
 })
 export class DbModule {}
